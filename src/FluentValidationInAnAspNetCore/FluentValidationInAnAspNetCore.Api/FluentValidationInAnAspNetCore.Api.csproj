@@ -12,4 +12,9 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FluentValidationInAnAspNetCore.Data\FluentValidationInAnAspNetCore.Data.csproj" />
+    <ProjectReference Include="..\FluentValidationInAnAspNetCore.Domain\FluentValidationInAnAspNetCore.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
