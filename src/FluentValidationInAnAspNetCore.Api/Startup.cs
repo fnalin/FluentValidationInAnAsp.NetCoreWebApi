@@ -1,4 +1,5 @@
-﻿using FluentValidationInAnAspNetCore.Data.EF;
+﻿using FluentValidationInAnAspNetCore.Api.Infra;
+using FluentValidationInAnAspNetCore.Data.EF;
 using FluentValidationInAnAspNetCore.Data.EF.Repositories;
 using FluentValidationInAnAspNetCore.Domain.Contracts.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -19,7 +20,10 @@ namespace FluentValidationInAnAspNetCore.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc(opt =>
+            {
+                opt.Filters.Add(typeof(ValidatorActionFilter));
+            });
             services.AddScoped<StoreDataContext>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();

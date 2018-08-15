@@ -1,4 +1,6 @@
-﻿using FluentValidationInAnAspNetCore.Domain.Contracts.Repositories;
+﻿using FluentValidationInAnAspNetCore.Api.Models;
+using FluentValidationInAnAspNetCore.Domain.Contracts.Repositories;
+using FluentValidationInAnAspNetCore.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -18,5 +20,27 @@ namespace FluentValidationInAnAspNetCore.Api.Controllers
             var data = await _customerRepository.GetAsync();
             return Ok(data);
         }
+
+        [HttpGet("{id}", Name = "CustomerGet")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var data = await _customerRepository.GetAsync(id);
+
+            if (data == null) return NotFound();
+
+            return Ok(data);
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody]NewCustomer newCustomer)
+        {
+            var customer = new Customer(newCustomer.Name, newCustomer.City);
+
+            _customerRepository.Add(customer);
+
+            var url = Url.Link("CustomerGet", new { id = customer.Id });
+            return Created(url, customer);
+        }
+
     }
 }
